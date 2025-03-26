@@ -4,26 +4,37 @@ from flask import redirect, render_template, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import config
+import items
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    all_items = items.get_items()
+    print(all_items)
+    return render_template("index.html", items = all_items)
 
 
 @app.route("/new_item")
 def new_item():
     return render_template("new_item.html")
 
+@app.route("/item/<int:item_id>")
+def item(item_id):
+    item = items.get_item(item_id)
+    print(item)
+    return render_template("show_item.html", item = item)
+
+
 @app.route("/create_item", methods=["POST"])
 def create_item():
     title = request.form["title"]
     description = request.form["description"]
     user_id = session["user_id"]
-    sql = "INSERT INTO items (title, description, user_id) VALUES (?, ?, ?)"
-    db.execute(sql, [title, description, user_id])
+
+    items.add_item(title, description, user_id)
+
     return redirect("/")
 
 
@@ -77,10 +88,6 @@ def login():
         else:
             return "VIRHE: Väärä tunnus tai salasana"
 
-
-
-
-        
 @app.route("/logout")
 def logout():
     del session["username"]
