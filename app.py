@@ -13,6 +13,18 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/new_item")
+def new_item():
+    return render_template("new_item.html")
+
+@app.route("/create_item", methods=["POST"])
+def create_item():
+    title = request.form["title"]
+    description = request.form["description"]
+    user_id = session["user_id"]
+    sql = "INSERT INTO items (title, description, user_id) VALUES (?, ?, ?)"
+    db.execute(sql, [title, description, user_id])
+    return redirect("/")
 
 
 @app.route("/register")
@@ -40,19 +52,37 @@ def create():
 def login():
     if request.method == "GET":
         return render_template("login.html")
+
     if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        sql = "SELECT password_hash FROM users WHERE username = ?"
-        password_hash = db.query(sql, [username])[0][0]
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        if not username or not password:
+            return "VIRHE: Anna käyttäjätunnus ja salasana"
+
+        sql = "SELECT id, password_hash FROM users WHERE username = ?"
+        result = db.query(sql, [username])  
+
+        if not result:
+            return "VIRHE: Käyttäjää ei löytynyt"
+
+        user = result[0]
+        user_id = user["id"]
+        password_hash = user["password_hash"]
 
         if check_password_hash(password_hash, password):
-            session["username"] = username
+            session["username"] = username  
+            session["user_id"] = user_id
             return redirect("/")
         else:
-            return "VIRHE: väärä tunnus tai salasana"
+            return "VIRHE: Väärä tunnus tai salasana"
 
+
+
+
+        
 @app.route("/logout")
 def logout():
     del session["username"]
+    del session["user_id"]
     return redirect("/")
