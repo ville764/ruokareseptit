@@ -20,6 +20,16 @@ def index():
 def new_item():
     return render_template("new_item.html")
 
+@app.route("/find_item")
+def find_item():
+    query = request.args.get("query")
+    if  query:
+        results = items.find_items(query)
+    else:
+        query = ""
+        results = []
+    return render_template("find_item.html", query = query, results = results)
+
 @app.route("/edit_item/<int:item_id>")
 def edit_item(item_id):
     item = items.get_item(item_id)

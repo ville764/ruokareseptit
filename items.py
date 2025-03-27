@@ -22,3 +22,11 @@ def update_item(item_id, title, description):
 def remove_item(item_id):
     sql = "DELETE FROM items WHERE id = ?"
     db.execute(sql, [item_id])
+
+def find_items(query):
+    sql = """SELECT items.id, items.title
+    FROM items
+    WHERE items.description LIKE ? OR items.title LIKE ?
+    ORDER BY items.id DESC"""
+    like_query = "%" + query + "%"
+    return db.query(sql, [like_query, like_query])

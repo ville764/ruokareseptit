@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Etsi resepti</title>
+</head>
+<h1>Etsi resepti</h1>
+<body>
+<form action="/find_item" method="get">
+    <p>
+        Anna hakusana: <br />
+        <input type="text" name="query" value = "{{query}}" />
+        <input type="submit" value="Hae" />
+    </p>
+</form>
+{% if query %}
+<h2>Hakutulokset:</h2>
+<ul>
+    {% for result in results %}
+    <li>
+        <a href="/item/{{ result.id }}">{{ result.title }}</a>
+    </li>
+{% endfor %}
+</ul>
+{% endif %}
+
+<p>
+    <a href="/">Takaisin</a>
+</p>    
+
+</body>
+
+</html>

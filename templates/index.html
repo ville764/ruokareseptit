@@ -10,18 +10,20 @@
   <p>
     Olet kirjautunut nimellä {{ session.username }}
   </p>
+  {% endif %}
 
     <p>
         <a href="/login">Kirjaudu sisään</a> 
         <a href="/register">Luo tunnus</a> 
         <a href="/logout">Kirjaudu ulos</a> 
+        <a href="/find_item">Etsi resepti</a>
     </p>
     <p> 
-        <a href="/new_item">Reseptit</a> 
+        <a href="/new_item">Luo uusi resepti</a> 
 
     </p>
 
-  {% endif %}
+
 
   <h2>Reseptit</h2>
     <ul>
