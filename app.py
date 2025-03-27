@@ -55,6 +55,18 @@ def update_item():
     return redirect("/item/" + str(item_id))
 
 
+@app.route("/remove_item/<int:item_id>", methods=["POST", "GET"])
+def remove_item(item_id):
+    if request.method == "GET":
+        item = items.get_item(item_id)
+        return render_template("remove_item.html", item = item)
+    if request.method == "POST":
+        if "remove" in request.form:
+            items.remove_item(item_id)
+            return redirect("/")
+        else:
+            return redirect("/item/" + str(item_id))
+
 @app.route("/register")
 def register():
     return render_template("register.html")
@@ -90,7 +102,6 @@ def login():
 
         sql = "SELECT id, password_hash FROM users WHERE username = ?"
         result = db.query(sql, [username])  
-
         if not result:
             return "VIRHE: Käyttäjää ei löytynyt"
 
