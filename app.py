@@ -33,6 +33,8 @@ def find_item():
 @app.route("/edit_item/<int:item_id>")
 def edit_item(item_id):
     item = items.get_item(item_id)
+    if not item:
+        abort (404)
     if item["user_id"] != session["user_id"]:
         abort (403)  
     return render_template("edit_item.html", item = item)
@@ -41,6 +43,8 @@ def edit_item(item_id):
 @app.route("/item/<int:item_id>")
 def item(item_id):
     item = items.get_item(item_id)
+    if not item:
+        abort (404)
     print(item)
     return render_template("show_item.html", item = item)
 
@@ -50,29 +54,29 @@ def create_item():
     title = request.form["title"]
     description = request.form["description"]
     user_id = session["user_id"]
-
     items.add_item(title, description, user_id)
-
     return redirect("/")
 
 @app.route("/update_item", methods=["POST"])
 def update_item():
     item_id = request.form["item_id"]
     item = items.get_item(item_id)
+    if not item:
+        abort (404)
     if item["user_id"] != session["user_id"]:
         abort (403)  
     title = request.form["title"]
     description = request.form["description"]
     user_id = session["user_id"]
-
     items.update_item(item_id, title, description)
-
     return redirect("/item/" + str(item_id))
 
 
 @app.route("/remove_item/<int:item_id>", methods=["POST", "GET"])
 def remove_item(item_id):
     item = items.get_item(item_id)
+    if not item:
+        abort (404)
     if item["user_id"] != session["user_id"]:
         abort (403)  
     if request.method == "GET":
