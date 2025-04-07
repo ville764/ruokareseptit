@@ -14,6 +14,7 @@ def get_item(item_id):
     WHERE items.user_id = users.id 
     AND items.id = ?"""
     result = db.query(sql, [item_id])
+    print("DEBUG: query result", result)  # tämä auttaa
     return result[0] if result else None
 
 def update_item(item_id, title, description):

@@ -1,10 +1,11 @@
 import sqlite3
-from flask import Flask
+from flask import Flask, abort
 from flask import redirect, render_template, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
 import db
 import config
 import items
+import users
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -45,10 +46,19 @@ def edit_item(item_id):
         abort (403)  
     return render_template("edit_item.html", item = item)
 
+@app.route("/user/<int:user_id>")
+def user(user_id):
+    user = users.get_user(user_id)
+    if not user:
+        abort (404)
+    print(user)
+    items = users.get_items(user_id)
+    return render_template("show_user.html", user = user, items = items)
 
 @app.route("/item/<int:item_id>")
 def item(item_id):
     item = items.get_item(item_id)
+    print("DEBUG item:", item) #debugging
     if not item:
         abort (404)
     print(item)
@@ -160,3 +170,9 @@ def logout():
         del session["username"]
         del session["user_id"]
     return redirect("/")
+
+@app.route("/debug_items")
+def debug_items():
+    sql = "SELECT id, title FROM items"
+    result = db.query(sql)
+    return "<br>".join([f"{row['id']}: {row['title']}" for row in result])
