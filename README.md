@@ -7,8 +7,8 @@ Tehty:
 * Käyttäjä pystyy lisäämään reseptejä ja muokkaamaan ja poistamaan niitä.
 * Käyttäjä näkee sovellukseen lisätyt reseptit.
 * Käyttäjä pystyy etsimään reseptejä hakusanalla.
+* Käyttäjäsivu näyttää, montako reseptiä käyttäjä on lisännyt ja listan käyttäjän lisäämistä resepteistä.
 
 Ei tehty:
-* Käyttäjäsivu näyttää, montako reseptiä käyttäjä on lisännyt ja listan käyttäjän lisäämistä resepteistä.
 * Käyttäjä pystyy valitsemaan reseptille yhden tai useamman luokittelun (esim. alkuruoka, intialainen, vegaaninen).
 * Käyttäjä pystyy antamaan reseptille kommentin ja arvosanan. Reseptistä näytetään kommentit ja keskimääräinen arvosana.
