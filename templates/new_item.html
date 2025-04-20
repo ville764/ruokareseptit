@@ -15,29 +15,18 @@
     <p>
       Kuvaus: <br />
       <textarea name="description" rows="8" cols="40" maxlength="1000" required></textarea>
-<p>
-  Ruokalaji: <br />
-  <select name="course" required>
-    <option value="">(valitse)</option>
-    <option value="alkuruoka">alkuruoka</option>
-    <option value="pääruoka">pääruoka</option>
-    <option value="jälkiruoka">jälkiruoka</option>
-    </select>
-</p>
-    <p>
-      Keittiö: <br />
-      <select name="kitchen" required>
-        <option value="">(valitse)</option>
-        <option value="suomalainen">suomalainen</option>
-        <option value="italialainen">italialainen</option>
-        <option value="ranskalainen">ranskalainen</option>
-        <option value="kiinalainen">kiinalainen</option>
-        <option value="intialainen">intialainen</option>
-        <option value="meksikolainen">meksikolainen</option>
-        <option value="japanilainen">japanilainen</option>
-        <option value="korealainen">korealainen</option>
 
-</select>
+{% for class in classes %}
+<p>
+  {{ class }}: <br />
+  <select name="classes">
+    <option value="">(valitse)</option>
+    {% for option in classes[class] %}
+    <option value="{{ class }}:{{ option }}">{{ option }}</option>
+    {% endfor %}
+  </select>
+  {% endfor %}
+</p>
     </p>
     <p>
 

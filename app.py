@@ -24,7 +24,9 @@ def index():
 @app.route("/new_item")
 def new_item():
     require_login()
-    return render_template("new_item.html")
+    classes = items.get_all_res_classes()
+    print("DEBUG classes:", classes)
+    return render_template("new_item.html", classes = classes)
 
 @app.route("/find_item")
 def find_item():
@@ -76,16 +78,12 @@ def create_item():
     if not description or len(description) > 1000:
         abort(403)
     user_id = session["user_id"]
-    classes = []
 
-    course = request.form.get("course")
-    if course:
-        classes.append(("ruokalaji", course))
-    kitchen = request.form.get("kitchen")
-    if kitchen:
-        classes.append(("keittiö", kitchen))
-    print("DEBUG: course", course)
-    print("DEBUG: kitchen", kitchen)
+    classes = []
+    for entry in request.form.getlist("classes"):
+        if entry:
+            parts = entry.split(":")
+            classes.append((parts[0], parts[1]))
     items.add_item(title, description, user_id, classes)
     return redirect("/")
 
