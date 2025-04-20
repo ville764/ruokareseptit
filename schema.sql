@@ -11,3 +11,10 @@ CREATE TABLE items (
     timestamp TEXT,
     user_id REFERENCES users
 );
+
+CREATE TABLE classes (
+    id INTEGER PRIMARY KEY,
+    item_id INTEGER REFERENCES items,
+    title TEXT,
+    value TEXT
+);

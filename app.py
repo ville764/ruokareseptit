@@ -62,7 +62,8 @@ def item(item_id):
     if not item:
         abort (404)
     print(item)
-    return render_template("show_item.html", item = item)
+    classes = items.get_classes(item_id)
+    return render_template("show_item.html", item = item, classes = classes)
 
 
 @app.route("/create_item", methods=["POST"])
@@ -75,8 +76,20 @@ def create_item():
     if not description or len(description) > 1000:
         abort(403)
     user_id = session["user_id"]
-    items.add_item(title, description, user_id)
+    classes = []
+
+    course = request.form.get("course")
+    if course:
+        classes.append(("ruokalaji", course))
+    kitchen = request.form.get("kitchen")
+    if kitchen:
+        classes.append(("keittiö", kitchen))
+    print("DEBUG: course", course)
+    print("DEBUG: kitchen", kitchen)
+    items.add_item(title, description, user_id, classes)
     return redirect("/")
+
+
 
 @app.route("/update_item", methods=["POST"])
 def update_item():
