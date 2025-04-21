@@ -40,9 +40,18 @@ def get_item(item_id):
     print("DEBUG: query result", result)  # tämä auttaa
     return result[0] if result else None
 
-def update_item(item_id, title, description):
+def update_item(item_id, title, description, classes):
     sql = "UPDATE items SET title = ?, description = ? WHERE id = ?"
     db.execute(sql, [title, description, item_id])
+
+    sql = "DELETE FROM classes WHERE item_id = ?"
+    db.execute(sql, [item_id])
+
+    sql = "INSERT INTO classes (item_id, title, value) VALUES (?, ?, ?)"
+    for class_title, class_value in classes:
+        db.execute(sql, [item_id, class_title, class_value])
+
+
 
 def remove_item(item_id):
     sql = "DELETE FROM items WHERE id = ?"

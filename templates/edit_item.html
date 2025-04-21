@@ -14,9 +14,26 @@
     <p>
       Kuvaus: <br />
       <textarea name="description" rows = "8" cols = "40" maxlength="1000" required>{{ item.description }} </textarea>
-      <input type="submit" value="Päivitä resepti" />
+
     </p>
 
+{% for class in all_classes %}
+<p>
+  {{ class }}: <br />
+  <select name="classes">
+    <option value="">(valitse)</option>
+    {% for option in all_classes[class] %}
+    {% if classes[class] == option %}
+    <option value="{{ class }}:{{ option }}"selected>{{ option }}</option>
+    {% else %}
+    <option value="{{ class }}:{{ option }}">{{ option }}</option>
+    {% endif %}
+    {% endfor %}
+  </select>
+  {% endfor %}
+</p>
+
+<input type="submit" value="Päivitä resepti" />
   <input type="hidden" name="item_id" value="{{ item.id }}">
   <p>
     <a href="/">Takaisin</a>
