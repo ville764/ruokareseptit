@@ -15,6 +15,7 @@ def add_item(title, description, user_id, classes):
     sql = "INSERT INTO items (title, description, user_id) VALUES (?, ?, ?)"
     db.execute(sql, [title, description, user_id])
     item_id = db.last_insert_id()
+
     sql = "INSERT INTO classes (item_id, title, value) VALUES (?, ?, ?)"
     for class_title, class_value in classes:
         db.execute(sql, [item_id, class_title, class_value])
@@ -54,6 +55,8 @@ def update_item(item_id, title, description, classes):
 
 
 def remove_item(item_id):
+    sql = "DELETE FROM classes WHERE item_id = ?"
+    db.execute(sql, [item_id])
     sql = "DELETE FROM items WHERE id = ?"
     db.execute(sql, [item_id])
 
