@@ -73,7 +73,9 @@ def item(item_id):
         abort (404)
     print(item)
     classes = items.get_classes(item_id)
-    return render_template("show_item.html", item = item, classes = classes)
+    rating_avg = items.get_rating_avg(item_id)
+    rating_count = items.get_rating_count(item_id)
+    return render_template("show_item.html", item = item, classes = classes, rating_avg = rating_avg, rating_count = rating_count)
 
 
 @app.route("/create_item", methods=["POST"])
@@ -102,7 +104,18 @@ def create_item():
     items.add_item(title, description, user_id, classes)
     return redirect("/")
 
-
+@app.route("/create_rating", methods=["POST"])
+def create_rating():
+    require_login()
+    rating = request.form["rating"]
+    print("DEBUG rating:", rating) #debugging
+    user_id = session["user_id"]
+    item_id = request.form["item_id"]
+    item = items.get_item(item_id)
+    if not rating or not item:
+        abort(403)
+    items.add_rating(rating, user_id, item_id)
+    return redirect("/")
 
 @app.route("/update_item", methods=["POST"])
 def update_item():
