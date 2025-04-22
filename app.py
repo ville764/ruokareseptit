@@ -75,7 +75,11 @@ def item(item_id):
     classes = items.get_classes(item_id)
     rating_avg = items.get_rating_avg(item_id)
     rating_count = items.get_rating_count(item_id)
-    return render_template("show_item.html", item = item, classes = classes, rating_avg = rating_avg, rating_count = rating_count)
+    comments = items.get_comments(item_id)
+    if comments == None:
+        comments = []
+
+    return render_template("show_item.html", item = item, classes = classes, rating_avg = rating_avg, rating_count = rating_count, comments = comments)
 
 
 @app.route("/create_item", methods=["POST"])
@@ -108,13 +112,14 @@ def create_item():
 def create_rating():
     require_login()
     rating = request.form["rating"]
+    comment = request.form["comment"]
     print("DEBUG rating:", rating) #debugging
     user_id = session["user_id"]
     item_id = request.form["item_id"]
     item = items.get_item(item_id)
     if not rating or not item:
         abort(403)
-    items.add_rating(rating, user_id, item_id)
+    items.add_rating(rating, user_id, item_id, comment)
     return redirect("/")
 
 @app.route("/update_item", methods=["POST"])

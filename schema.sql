@@ -30,4 +30,5 @@ CREATE TABLE rating (
     item_id INTEGER REFERENCES items,
     user_id INTEGER REFERENCES users,
     rating INTEGER
+    comment TEXT
 );

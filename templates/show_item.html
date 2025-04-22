@@ -38,9 +38,19 @@ Arviointeja {{ rating_count }} kappaletta. Arvosanojen keskiarvo: {{ rating_avg 
   <label>
     <input type="number" name="rating" min="1" max="5" required />
   </label>
+  <input type="text" name="comment" maxlength="50" required/>
   <input type="hidden" name="item_id" value="{{ item.id }}">
-  <input type="submit" value="Anna arvosana" />
+  <input type="submit" value="Anna arvosana ja kommentti" />
 </form>
+
+<p>Kommentit</p>
+<ul>
+  {% for comment in comments %}
+  <li> {{comment.comment}}</li>
+  {% endfor %}
+
+</ul>
+</p>
 
   <a href="/">Takaisin</a>
 </body>

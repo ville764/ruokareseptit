@@ -20,9 +20,9 @@ def add_item(title, description, user_id, classes):
     for class_title, class_value in classes:
         db.execute(sql, [item_id, class_title, class_value])
 
-def add_rating(rating, user_id, item_id): 
-    sql = "INSERT INTO rating (rating, user_id, item_id) VALUES (?, ?, ?)"
-    db.execute(sql, [rating, user_id, item_id])
+def add_rating(rating, user_id, item_id, comment): 
+    sql = "INSERT INTO rating (rating, user_id, item_id, comment) VALUES (?, ?, ?, ?)"
+    db.execute(sql, [rating, user_id, item_id, comment])
 
 def get_rating_avg(item_id): 
     sql = "SELECT AVG(rating) FROM rating WHERE item_id = ?"
@@ -38,6 +38,13 @@ def get_rating_count(item_id):
         return result[0][0]
     return None
     db.execute(sql, [item_id])
+
+def get_comments(item_id): 
+    sql = "SELECT comment FROM rating WHERE item_id = ? ORDER BY id DESC"
+    result = db.query(sql, [item_id])
+    if result:
+        return result
+    return None
 
 def get_classes(item_id):
     sql = """SELECT title, value
