@@ -44,12 +44,13 @@ Arviointeja {{ rating_count }} kappaletta. Arvosanojen keskiarvo: {{ rating_avg 
 </form>
 
 <p>Kommentit</p>
-<ul>
   {% for comment in comments %}
-  <li> {{comment.comment}}</li>
+  <div class="comment">
+  <p> {{comment.comment}}</p>
+</div>
   {% endfor %}
 
-</ul>
+
 </p>
 
 
