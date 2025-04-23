@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Ruokareseptin poisto</title>
-</head>
-<body></body>
-<h1>Ruokareseptin poisto</h1>
+{% block title %}Ruokareseptin poisto{% endblock %}
+
+{% block content %}
+<h2>Ruokareseptin poisto</h2>
 <p>Resepti {{item.title}}</p>
 <p>Haluatko varmasti poistaa reseptin?</p>
 
@@ -14,9 +12,4 @@
     <input type="submit" name = "remove" value="Poista resepti">
     <input type="submit" name = "back" value="Palaa takaisin" >
 
-  <p>
-    <a href="/">Takaisin</a>
-  </p>
-</body>
-</form>
-</html>
+    {% endblock %}

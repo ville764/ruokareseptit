@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>{{ item.title }}</title>
-</head>
-<h1>{{ item.title }}</h1>
-<body>
+{% block title %}Resepti{% endblock %}
+
+{% block content %}
+
+<h2>{{ item.title }}</h2>
+
 
     {% if session.user_id == item.user_id %}
     <p>
@@ -52,7 +52,5 @@ Arviointeja {{ rating_count }} kappaletta. Arvosanojen keskiarvo: {{ rating_avg 
 </ul>
 </p>
 
-  <a href="/">Takaisin</a>
-</body>
 
-</html>
+  {% endblock %}

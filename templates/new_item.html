@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Ruokareseptit</title>
-</head>
-<body>
-<h1>Ruokareseptit</h1>
+{% block title %}Uusi ruokaresepti{% endblock %}
+
+{% block content %}
+
+
+<h2>Uusi ruokareseptit</h2>
 
   <form action="/create_item" method="post">
     <p>
@@ -35,6 +35,4 @@
       <input type="submit" name="Luo resepti" />
     </p>
   </form>
-</body>
-
-</html>
+  {% endblock %}

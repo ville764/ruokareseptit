@@ -1,31 +1,8 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Ruokareseptit</title>
-</head>
-<h1>Ruokareseptit</h1>
-<body>
-  <p>{% if session.username %}
-  
-    Olet kirjautunut nimellä {{ session.username }}
-  </p>
-  {% endif %}
+{% block title %}Ruokareseptit{% endblock %}
 
-
-
-
-<p>
-<a href="/find_item">Etsi resepti</a> |
-  {% if session.username %}
-    <a href="/new_item">Luo uusi resepti</a> |
-    <a href="/logout">Kirjaudu ulos</a> |
-    <a href="/user/{{ session.user_id }}">Oma sivu</a>
-  {% else %}
-    <a href="/login">Kirjaudu sisään</a> |
-    <a href="/register">Luo tunnus</a> 
-  </p>
-  {% endif %}
+{% block content %}
 
 
 
@@ -38,6 +15,5 @@
         {% endfor %}
     </ul>
 
-</body>
 
-</html>
+{% endblock %}

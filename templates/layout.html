@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body>
+    <div class="header">
+        <h1>Ruokareseptit</h1>
+      </div>
+
+  <div class="nav">
+    <nav>
+        <p>{% if session.username %}
+  
+            Olet kirjautunut nimellä {{ session.username }}
+          </p>
+          {% endif %}
+        
+        
+        
+        
+        <p>
+            <a href="/">Etusivu</a> |
+            <a href="/find_item">Etsi resepti</a> |
+          {% if session.username %}
+            <a href="/new_item">Luo uusi resepti</a> |
+            <a href="/logout">Kirjaudu ulos</a> |
+            <a href="/user/{{ session.user_id }}">Oma sivu</a>
+          {% else %}
+            <a href="/login">Kirjaudu sisään</a> |
+            <a href="/register">Luo tunnus</a> 
+          </p>
+          {% endif %}
+            </nav>
+  </div>
+
+  <div class="content">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+
+</html>

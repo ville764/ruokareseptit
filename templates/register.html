@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Rekisteröinti</title>
-</head>
+{% block title %}Luo uusi tunnus{% endblock %}
 
-<body>
+{% block content %}
+
+<h2>Luo uusi tunnus</h2>
   <form action="/create" method="post">
     <p>
       Tunnus: <br />
@@ -23,6 +22,4 @@
   </form>
 
   <a href="/">Takaisin</a>
-</body>
-
-</html>
+  {% endblock %}
