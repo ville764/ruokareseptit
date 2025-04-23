@@ -45,7 +45,7 @@ def edit_item(item_id):
     if not item:
         abort (404)
     if item["user_id"] != session["user_id"]:
-        abort (403)  
+        abort (403)
     all_classes = items.get_all_res_classes()
     classes = {}
     for my_class in all_classes:
@@ -76,7 +76,7 @@ def item(item_id):
     rating_avg = items.get_rating_avg(item_id)
     rating_count = items.get_rating_count(item_id)
     comments = items.get_comments(item_id)
-    if comments == None:
+    if comments is None:
         comments = []
 
     return render_template("show_item.html", item = item, classes = classes, rating_avg = rating_avg, rating_count = rating_count, comments = comments)
@@ -88,7 +88,7 @@ def create_item():
     title = request.form["title"]
     if not title or len(title) > 50:
         abort(403)
-    description = request.form["description"] 
+    description = request.form["description"]
     if not description or len(description) > 1000:
         abort(403)
     user_id = session["user_id"]
@@ -130,7 +130,7 @@ def update_item():
     if not item:
         abort (404)
     if item["user_id"] != session["user_id"]:
-        abort (403)  
+        abort (403)
     title = request.form["title"]
     if not title or len(title) > 50:
         abort(403)
@@ -163,7 +163,7 @@ def remove_item(item_id):
     if not item:
         abort (404)
     if item["user_id"] != session["user_id"]:
-        abort (403)  
+        abort (403)
     if request.method == "GET":
         return render_template("remove_item.html", item = item)
     if request.method == "POST":
@@ -207,7 +207,7 @@ def login():
         user_id = users.check_login(username, password)
 
         if user_id:
-            session["username"] = username  
+            session["username"] = username
             session["user_id"] = user_id
             return redirect("/")
         else:
