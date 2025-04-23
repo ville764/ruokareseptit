@@ -6,34 +6,26 @@
 </head>
 <h1>Ruokareseptit</h1>
 <body>
-  {% if session.username %}
-  <p>
+  <p>{% if session.username %}
+  
     Olet kirjautunut nimellä {{ session.username }}
   </p>
-  <p>
-    <a href="/logout">Kirjaudu ulos</a> 
-    <a href="/user/{{ session.user_id }}">Oma sivu</a>
-</p>
-<p> 
-  <a href="/new_item">Luo uusi resepti</a> 
-
-</p>
-
-
-  {% else %}
-  <p>
-    Et ole kirjautunut sisään.
-  </p>
-  <p>
-    <a href="/login">Kirjaudu sisään</a> 
-    <a href="/register">Luo tunnus</a> 
-</p>
-
   {% endif %}
 
-    <p>
-        <a href="/find_item">Etsi resepti</a>
-    </p>
+
+
+
+<p>
+<a href="/find_item">Etsi resepti</a> |
+  {% if session.username %}
+    <a href="/new_item">Luo uusi resepti</a> |
+    <a href="/logout">Kirjaudu ulos</a> |
+    <a href="/user/{{ session.user_id }}">Oma sivu</a>
+  {% else %}
+    <a href="/login">Kirjaudu sisään</a> |
+    <a href="/register">Luo tunnus</a> 
+  </p>
+  {% endif %}
 
 
 
