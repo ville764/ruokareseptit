@@ -53,7 +53,7 @@ def get_classes(item_id):
     return result
 
 def get_items():
-    sql = "SELECT * FROM items ORDER BY id DESC"
+    sql = "SELECT id, title, description, user_id FROM items ORDER BY id DESC"
     return db.query(sql)
 
 def get_item(item_id):

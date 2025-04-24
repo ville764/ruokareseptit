@@ -6,6 +6,7 @@ import db
 import config
 import items
 import users
+import secrets
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -13,6 +14,10 @@ app.secret_key = config.secret_key
 def require_login():
     if "username" not in session:
         abort (403)
+
+def check_csrf():
+    if request.form["csrf_token"] != session["csrf_token"]:
+        abort(403)
 
 @app.route("/")
 def index():
@@ -85,6 +90,7 @@ def item(item_id):
 @app.route("/create_item", methods=["POST"])
 def create_item():
     require_login()
+    check_csrf()
     title = request.form["title"]
     if not title or len(title) > 50:
         abort(403)
@@ -111,6 +117,7 @@ def create_item():
 @app.route("/create_rating", methods=["POST"])
 def create_rating():
     require_login()
+    check_csrf()
     rating = request.form["rating"]
     comment = request.form["comment"]
     print("DEBUG rating:", rating) #debugging
@@ -125,6 +132,7 @@ def create_rating():
 @app.route("/update_item", methods=["POST"])
 def update_item():
     require_login()
+    check_csrf()
     item_id = request.form["item_id"]
     item = items.get_item(item_id)
     if not item:
@@ -159,6 +167,7 @@ def update_item():
 @app.route("/remove_item/<int:item_id>", methods=["POST", "GET"])
 def remove_item(item_id):
     require_login()
+
     item = items.get_item(item_id)
     if not item:
         abort (404)
@@ -167,6 +176,7 @@ def remove_item(item_id):
     if request.method == "GET":
         return render_template("remove_item.html", item = item)
     if request.method == "POST":
+        check_csrf()
         if "remove" in request.form:
             items.remove_item(item_id)
             return redirect("/")
@@ -209,6 +219,7 @@ def login():
         if user_id:
             session["username"] = username
             session["user_id"] = user_id
+            session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         else:
             return "VIRHE: Väärä tunnus tai salasana"
@@ -218,6 +229,7 @@ def logout():
     if "username" in session:
         del session["username"]
         del session["user_id"]
+        del session["csrf_token"]
     return redirect("/")
 
 @app.route("/debug_items")

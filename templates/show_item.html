@@ -40,6 +40,7 @@ Arviointeja {{ rating_count }} kappaletta. Arvosanojen keskiarvo: {{ rating_avg 
   </label>
   <input type="text" name="comment" maxlength="50" required/>
   <input type="hidden" name="item_id" value="{{ item.id }}">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Anna arvosana ja kommentti" />
 </form>
 
