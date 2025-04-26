@@ -13,6 +13,12 @@ Tehty:
 
 
 Asennusohje
+Lataa koodit hakemistoon
+aja terminaalissa ko hakemistossa
+python3 -m venv venv
+source venv/bin/activate
+sqlite3 database.db < schema.sql
+flask run
 
 
 Testitulokset 
