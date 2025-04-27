@@ -1,15 +1,28 @@
 import sqlite3
 from flask import Flask, abort
-from flask import redirect, render_template, request, session
+from flask import redirect, render_template, request, session, g
 
 import db
 import config
 import items
 import users
 import secrets
+import math
+import time
+
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
+
+@app.before_request
+def before_request():
+    g.start_time = time.time()
+
+@app.after_request
+def after_request(response):
+    elapsed_time = round(time.time() - g.start_time, 2)
+    print("elapsed time:", elapsed_time, "s")
+    return response
 
 def require_login():
     if "username" not in session:
@@ -20,10 +33,20 @@ def check_csrf():
         abort(403)
 
 @app.route("/")
-def index():
-    all_items = items.get_items()
-    print(all_items)
-    return render_template("index.html", items = all_items)
+@app.route("/<int:page>")
+def index(page=1):
+    page_size = 10
+    all_item_count = items.item_count()
+    page_count = math.ceil(all_item_count / page_size)
+    page_count = max(page_count, 1)
+
+    if page < 1:
+        return redirect("/1")
+    if page > page_count:
+        return redirect(f"/{page_count}")
+
+    current_items = items.get_items(page, page_size)
+    return render_template("index.html", items=current_items, page=page, page_count=page_count)
 
 
 @app.route("/new_item")

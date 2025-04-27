@@ -52,9 +52,16 @@ def get_classes(item_id):
     result = db.query(sql, [item_id])
     return result
 
-def get_items():
-    sql = "SELECT id, title, description, user_id FROM items ORDER BY id DESC"
-    return db.query(sql)
+def get_items(page=1, page_size=10):
+    offset = (page - 1) * page_size
+    sql = "SELECT id, title, description, user_id FROM items ORDER BY id DESC LIMIT ? OFFSET ?"
+    return db.query(sql, [page_size, offset])
+
+
+def item_count():
+    sql = "SELECT COUNT(*) FROM items"
+    result = db.query(sql)
+    return result[0][0]
 
 def get_item(item_id):
     sql = """SELECT items.id, items.title, items.description, users.username, users.id user_id
@@ -62,7 +69,6 @@ def get_item(item_id):
     WHERE items.user_id = users.id 
     AND items.id = ?"""
     result = db.query(sql, [item_id])
-    print("DEBUG: query result", result)  # tämä auttaa
     return result[0] if result else None
 
 def update_item(item_id, title, description, classes):
