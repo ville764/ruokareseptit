@@ -7,10 +7,13 @@ db.execute("DELETE FROM users")
 db.execute("DELETE FROM items")
 db.execute("DELETE FROM classes")
 db.execute("DELETE FROM rating")
+db.execute("CREATE INDEX idx_items_id ON items (id DESC);")
+db.execute("CREATE INDEX idx_rating_item_id ON rating (item_id);")
 
-user_count = 100
-item_count = 500
-rating_count = 1000
+
+user_count = 1000
+item_count = 10**6
+rating_count = 10**7
 
 
 rec_classes = db.execute("SELECT title, value FROM rec_classes").fetchall()
