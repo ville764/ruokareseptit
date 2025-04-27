@@ -96,7 +96,6 @@ def user(user_id):
 @app.route("/item/<int:item_id>")
 def item(item_id):
     item = items.get_item(item_id)
-    print("DEBUG item:", item) #debugging
     if not item:
         abort (404)
     print(item)

@@ -14,7 +14,7 @@
     </p>
     {% endif %}
     <p>
-{{ item.description }}
+{{ item.description | replace("\n", "<br>") | safe  }}
     </p>
 
 
