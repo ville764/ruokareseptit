@@ -1,4 +1,7 @@
 import sqlite3
+import secrets
+import math
+import time
 from flask import Flask, abort
 from flask import redirect, render_template, request, session, g
 
@@ -6,9 +9,6 @@ import db
 import config
 import items
 import users
-import secrets
-import math
-import time
 
 
 app = Flask(__name__)
@@ -81,8 +81,8 @@ def edit_item(item_id):
     for entry in items.get_classes(item_id):
         classes[entry["title"]] = entry["value"]
 
-
-    return render_template("edit_item.html", item = item, classes = classes, all_classes = all_classes)
+    return render_template("edit_item.html", item = item, classes = classes,
+                           all_classes = all_classes)
 
 @app.route("/user/<int:user_id>")
 def user(user_id):
@@ -106,7 +106,8 @@ def item(item_id):
     if comments is None:
         comments = []
 
-    return render_template("show_item.html", item = item, classes = classes, rating_avg = rating_avg, rating_count = rating_count, comments = comments)
+    return render_template("show_item.html", item = item, classes = classes, rating_avg = rating_avg,
+                           rating_count = rating_count, comments = comments)
 
 
 @app.route("/create_item", methods=["POST"])
