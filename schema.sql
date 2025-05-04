@@ -29,6 +29,6 @@ CREATE TABLE rating (
     id INTEGER PRIMARY KEY,
     item_id INTEGER REFERENCES items,
     user_id INTEGER REFERENCES users,
-    rating INTEGER
+    rating INTEGER,
     comment TEXT
 );
