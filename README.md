@@ -18,6 +18,7 @@ aja terminaalissa ko hakemistossa
 python3 -m venv venv
 source venv/bin/activate
 sqlite3 database.db < schema.sql
+sqlite3 database.db < init.sql
 flask run
 
 
